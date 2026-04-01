@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinPlatform MVP</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="logo">FinPlatform.</a>
+            <div class="nav-links">
+                <a href="{% url 'charts' %}">Charts</a>
+                <a href="{% url 'calendar' %}">Calendar</a>
+            </div>
+        </div>
+    </nav>
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <button id="ai-toggle-btn" class="ai-float-btn">🤖 Ask AI</button>
+    <div id="ai-chat-modal" class="chat-modal hidden">
+        <div class="chat-header">
+            <h4>Market AI Assistant</h4>
+            <button id="close-chat">✕</button>
+        </div>
+        <div class="chat-body" id="chat-body">
+            <div class="message bot">Hello! I can explain recent market movements based on news data. What asset are you looking at? (Note: I do not predict prices).</div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" id="chat-input" placeholder="e.g., Why did BTC move yesterday?">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+    <script src="{% static 'js/chat.js' %}"></script>
+</body>
+</html>
