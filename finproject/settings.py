@@ -25,7 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-NEWS_API_KEY = os.getenv("GNEWS_API_KEY")
+NEWS_API_KEY = os.getenv("NEWS_API_KEY")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-fg93q7n+*73_0y!*i3o-c@+%5tp-0*rw)u87qtykl55tqn@qzv'

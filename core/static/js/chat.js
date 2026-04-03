@@ -15,31 +15,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
         appendMessage(text, 'user');
         chatInput.value = '';
-        const loadingId = appendMessage('Analyzing market data...', 'bot');
+        const loadingEl = appendMessage('Analyzing market data...', 'bot');  // keep loading separate
 
         try {
-            const response = await fetch('/ai/ask/', {
+            const response = await fetch('/ai/ask/', { 
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: text })
             });
             const data = await response.json();
-            document.getElementById(loadingId).innerText = data.response;
-        } catch (error) {
-            document.getElementById(loadingId).innerText = "Error connecting to AI service.";
-        }
+
+
+            // add the real bot response
+            loadingEl.remove();
+            appendMessage(data.response, 'bot');
+
+            } catch (error) {
+            loadingEl.remove();
+
+            appendMessage("Error connecting to AI service.", 'bot');
+            }
         chatBody.scrollTop = chatBody.scrollHeight;
     };
+    function linkify(text) {
+        console.log("RAW TEXT:", text);  // 👈 ADD THIS
+        const urlPattern = /(https?:\/\/[^\s]+)/g;
 
+        const result =  text.replace(urlPattern, (url) => {
+            console.log("FOUND URL:", url);  // 👈 ADD THIS
+            return `<a href="${url}" target="_blank rel="noopener noreferrer style="color: #4ea1ff; text-decoration: underline">🔗 Source</a>`;
+        });
+        console.log("AFTER LINKIFY:", result);  // 👈 ADD THIS
+        return result;
+    }
     const appendMessage = (text, sender) => {
         const msgDiv = document.createElement('div');
         msgDiv.classList.add('message', sender);
-        msgDiv.innerText = text;
-        const id = 'msg-' + Date.now();
-        msgDiv.id = id;
+        //msgDiv.innerText = text;
+        msgDiv.innerHTML = linkify(text).replace(/\n/g, "<br>");
+        
         chatBody.appendChild(msgDiv);
         chatBody.scrollTop = chatBody.scrollHeight;
-        return id;
+        return msgDiv;
     };
 
     sendBtn.addEventListener('click', sendMessage);
