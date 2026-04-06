@@ -1,37 +1,114 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
+<!-- prettier-ignore -->
 <div class="page-header">
-    <h2>Market Charts</h2>
-    <form method="GET" action="{% url 'charts' %}" class="symbol-selector">
-        <select name="symbol" onchange="this.form.submit()">
-            <option value="BINANCE:BTCUSDT" {% if symbol == 'BINANCE:BTCUSDT' %}selected{% endif %}>Bitcoin (BTC/USDT)</option>
-            <option value="OANDA:EURUSD" {% if symbol == 'OANDA:EURUSD' %}selected{% endif %}>Forex (EUR/USD)</option>
-            <option value="NASDAQ:AAPL" {% if symbol == 'NASDAQ:AAPL' %}selected{% endif %}>Apple (AAPL)</option>
-            <option value="TVC:GOLD" {% if symbol == 'TVC:GOLD' %}selected{% endif %}>Gold</option>
-        </select>
-    </form>
+  <h2>Market Charts</h2>
+  <form method="GET" action="{% url 'charts' %}" class="symbol-selector">
+    <select name="preset_symbol" onchange="
+      document.getElementById('search').value=''; this.form.submit();">
+      {% if is_custom %}
+        <option value="{{ symbol }}" selected>
+            Custom: {{ symbol }}
+        </option>
+      {% endif %}
+      <!-- Crypto -->
+      <optgroup label="🪙 Cryptocurrencies">
+          <option value="BINANCE:BTCUSDT" {% if symbol == 'BINANCE:BTCUSDT' %}selected{% endif %}>Bitcoin (BTC/USDT)</option>
+          <option value="BINANCE:ETHUSDT" {% if symbol == 'BINANCE:ETHUSDT' %}selected{% endif %}>Ethereum (ETH/USDT)</option>
+          <option value="BINANCE:BNBUSDT" {% if symbol == 'BINANCE:BNBUSDT' %}selected{% endif %}>BNB (BNB/USDT)</option>
+          <option value="BINANCE:SOLUSDT" {% if symbol == 'BINANCE:SOLUSDT' %}selected{% endif %}>Solana (SOL/USDT)</option>
+          <option value="BINANCE:XRPUSDT" {% if symbol == 'BINANCE:XRPUSDT' %}selected{% endif %}>XRP (XRP/USDT)</option>
+      </optgroup>
+
+      <!-- Forex -->
+      <optgroup label="💱 Forex">
+          <option value="OANDA:EURUSD" {% if symbol == 'OANDA:EURUSD' %}selected{% endif %}>Forex (EUR/USD)</option>
+          <option value="OANDA:USDJPY" {% if symbol == 'OANDA:USDJPY' %}selected{% endif %}>Forex (USD/JPY)</option>
+          <option value="OANDA:GBPUSD" {% if symbol == 'OANDA:GBPUSD' %}selected{% endif %}>Forex (GBP/USD)</option>
+          <option value="OANDA:USDCHF" {% if symbol == 'OANDA:USDCHF' %}selected{% endif %}>Forex (USD/CHF)</option>
+          <option value="OANDA:AUDUSD" {% if symbol == 'OANDA:AUDUSD' %}selected{% endif %}>Forex (AUD/USD)</option>
+      </optgroup>
+
+      <!-- Stocks -->
+      <optgroup label="📈 Stocks">
+          <option value="NASDAQ:AAPL" {% if symbol == 'NASDAQ:AAPL' %}selected{% endif %}>Apple (AAPL)</option>
+          <option value="NASDAQ:TSLA" {% if symbol == 'NASDAQ:TSLA' %}selected{% endif %}>Tesla (TSLA)</option>
+          <option value="NASDAQ:MSFT" {% if symbol == 'NASDAQ:MSFT' %}selected{% endif %}>Microsoft (MSFT)</option>
+          <option value="NASDAQ:AMZN" {% if symbol == 'NASDAQ:AMZN' %}selected{% endif %}>Amazon (AMZN)</option>
+          <option value="NASDAQ:NVDA" {% if symbol == 'NASDAQ:NVDA' %}selected{% endif %}>NVIDIA (NVDA)</option>
+      </optgroup>
+
+      <!-- Indices -->
+      <optgroup label="📊 Indices">
+          <option value="OANDA:NAS100USD" {% if symbol == 'OANDA:NAS100USD' %}selected{% endif %}>Nasdaq 100 (NAS100)</option>
+          <option value="OANDA:SPX500USD" {% if symbol == 'OANDA:SPX500USD' %}selected{% endif %}>S&P 500 (SPX500)</option>
+          <option value="OANDA:US30USD" {% if symbol == 'OANDA:US30USD' %}selected{% endif %}>Dow Jones (US30)
+          <option value="OANDA:JP225USD" {% if symbol == 'OANDA:JP225USD' %}selected{% endif %}>Nikkei 225 (Japan)</option>
+          <option value="OANDA:UK100GBP" {% if symbol == 'OANDA:UK100GBP' %}selected{% endif %}>FTSE 100 (UK)</option>
+      </optgroup>
+
+      <!-- Commodities -->
+      <optgroup label="🛢️ Commodities">
+          <option value="TVC:GOLD" {% if symbol == 'TVC:GOLD' %}selected{% endif %}>Gold (XAU/USD)</option>
+          <option value="TVC:SILVER" {% if symbol == 'TVC:SILVER' %}selected{% endif %}>Silver (XAG/USD)</option>
+          <option value="TVC:USOIL" {% if symbol == 'TVC:USOIL' %}selected{% endif %}>Crude Oil WTI</option>
+          <option value="TVC:UKOIL" {% if symbol == 'TVC:UKOIL' %}selected{% endif %}>Crude Oil Brent</option>
+      </optgroup>
+      <!--<option value="BINANCE:BTCUSDT" {% if symbol == 'BINANCE:BTCUSDT' %}selected{% endif %}>Bitcoin (BTC/USDT)</option>
+          <option value="OANDA:EURUSD" {% if symbol == 'OANDA:EURUSD' %}selected{% endif %}>Forex (EUR/USD)</option>
+          <option value="NASDAQ:AAPL" {% if symbol == 'NASDAQ:AAPL' %}selected{% endif %}>Apple (AAPL)</option>
+          <option value="TVC:GOLD" {% if symbol == 'TVC:GOLD' %}selected{% endif %}>Gold</option>-->
+    
+    </select>
+    <!-- 🔍 Search Input -->
+    <!-- 🔍 Search wrapper (HERE) -->
+    <div class="search-wrapper">
+        <span class="search-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M21 21L16.65 16.65M11 18A7 7 0 1 1 11 4a7 7 0 0 1 0 14z" 
+                    stroke="currentColor" stroke-width="2"/>
+            </svg>
+        </span>
+        <input 
+            type="text" 
+              id="search" 
+              name="symbol" 
+              placeholder="Search symbol..."
+              value="{{ search_value }}"
+              class="search-input"
+              oninput="document.querySelector('select[name=preset_symbol]').selectedIndex = -1;"
+              onchange="this.form.submit()"
+        >
+    </div>
+    
+  </form>
 </div>
 <div class="chart-container">
-    <div class="tradingview-widget-container" style="height:100%;width:100%">
-      <div id="tradingview_12345" style="height:calc(100vh - 200px);width:100%"></div>
-      <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-      <script type="text/javascript">
+  <div class="tradingview-widget-container" style="height: 100%; width: 100%">
+    <div
+      id="tradingview_12345"
+      style="height: calc(100vh - 200px); width: 100%"
+    ></div>
+    <script
+      type="text/javascript"
+      src="https://s3.tradingview.com/tv.js"
+    ></script>
+    <script type="text/javascript">
       new TradingView.widget({
-        "autosize": true,
-        "symbol": "{{ symbol }}",
-        "interval": "D",
-        "timezone": "Etc/UTC",
-        "theme": "dark",
-        "style": "1",
-        "locale": "en",
-        "enable_publishing": false,
-        "backgroundColor": "#111827",
-        "gridColor": "#1f2937",
-        "hide_top_toolbar": false,
-        "save_image": false,
-        "container_id": "tradingview_12345"
+        autosize: true,
+        symbol: "{{ symbol }}",
+        interval: "D",
+        timezone: "Etc/UTC",
+        theme: "dark",
+        style: "1",
+        locale: "en",
+        enable_publishing: false,
+        backgroundColor: "#111827",
+        gridColor: "#1f2937",
+        hide_top_toolbar: false,
+        save_image: false,
+        container_id: "tradingview_12345",
       });
-      </script>
-    </div>
+    </script>
+  </div>
 </div>
 {% endblock %}
