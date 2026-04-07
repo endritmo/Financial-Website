@@ -21,7 +21,7 @@ def fetch_financial_news(query):
     # Fallback if keywords are too short
     search_term = keywords if keywords else "bitcoin price"
     
-    url = f"https://newsapi.org/v2/everything?q={search_term}&language=en&pageSize=25&sortBy=publishedAt&apikey={api_key}"
+    url = f"https://newsapi.org/v2/everything?q={search_term}&language=en&pageSize=20&sortBy=publishedAt&apikey={api_key}"
     print(f"Fetching news for: {search_term} using URL: {url}")
     
     try:
@@ -29,7 +29,7 @@ def fetch_financial_news(query):
         response.raise_for_status()
         data = response.json()
         articles = data.get('articles', [])
-        articles = articles[:25]
+        #articles = articles[:20]
         
         
         
@@ -97,7 +97,7 @@ def fetch_groq_explanation(user_query, news_context):
                 {"role": "user", "content": user_prompt}
             ],
             temperature=0.3, # Low temperature keeps it analytical and grounded
-            max_tokens=400
+            max_tokens=1000
         )
         return response.choices[0].message.content
     except Exception as e:
