@@ -1,4 +1,4 @@
-FinPlatform
+FinPlatform (in development)
 FinPlatform is a comprehensive, Django-based financial dashboard and community hub designed to give users the tools they need to track markets, stay informed on economic events, and discuss trading strategies. Featuring a sleek dark-themed UI, the platform combines real-time market visualization with an integrated AI assistant and a robust community forum.
 
 Key Features
