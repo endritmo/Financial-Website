@@ -2,6 +2,8 @@
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
 body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.6; }
 .navbar { border-bottom: 1px solid var(--border); background-color: var(--bg-secondary); padding: 1rem 0; }
+.dev-badge {font-size: 0.8rem; color: var(--text-muted); opacity: 0.8;}
+.logo-group {display: flex; align-items: center; gap: 0.5rem;}
 .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem; }
 .logo { font-size: 1.5rem; font-weight: 700; color: var(--text-main); text-decoration: none; }
 .nav-links a { color: var(--text-muted); text-decoration: none; margin-left: 1.5rem; font-weight: 500; transition: color 0.2s; }
@@ -12,7 +14,8 @@ body { background-color: var(--bg-main); color: var(--text-main); line-height: 1
 .hero p { color: var(--text-muted); font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem auto; }
 .btn-primary { display: inline-block;  background-color: var(--accent); color: white; padding: 0.75rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; }
 .btn-primary:hover {
-    cursor: pointer
+    cursor: pointer;
+    background-color: #e69500;
 }
 /* --- Secondary & Danger Buttons for Forum Actions --- */
 .btn-secondary {
@@ -147,18 +150,47 @@ select { background-color: var(--bg-secondary); color: var(--text-main); border:
 .forum-meta {
     color: var(--text-muted);
     font-size: 0.85rem;
+
 }
+
+/* --- Forum Badges & Filters --- */
+.forum-filters {
+    display: flex;
+    flex-wrap: wrap; /* Ensures filters wrap neatly on mobile screens */
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.4rem 1.2rem;
+    background-color: var(--bg-secondary);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 50px; /* Pill shape looks great for filters */
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+a.badge:hover {
+    background-color: var(--border);
+    color: var(--text-main);
+    border-color: #4b5563;
+}
+
 .badge.active {
     background-color: var(--accent);
     color: white;
+    border-color: var(--accent);
 }
-a.badge {
-    text-decoration: none;
-    transition: background-color 0.2s;
-}
-a.badge:hover {
-    background-color: var(--accent-hover);
-    color: white;
+
+/* Specific styling for impact badges (from thread_detail) */
+.badge.impact {
+    border-radius: 4px; /* Squarer look for meta-tags rather than filters */
+    padding: 0.2rem 0.5rem;
+    font-size: 0.75rem;
 }
 /* Ensure form inputs take full width gracefully */
 form p {
