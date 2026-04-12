@@ -1,8 +1,8 @@
-{% extends 'base.html' %} {% block content %}
-<!-- prettier-ignore -->
+{% extends 'core/base.html' %} {% block content %}
+
 <div class="page-header">
   <h2>Market Charts</h2>
-  <form method="GET" action="{% url 'charts' %}" class="symbol-selector">
+  <form method="GET" action="{% url 'core:charts' %}" class="symbol-selector">
     <select name="preset_symbol" onchange="
       document.getElementById('search').value=''; this.form.submit();">
       {% if is_custom %}

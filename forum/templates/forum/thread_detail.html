@@ -1,0 +1,75 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ thread.title }} | FinPlatform{% endblock %}
+
+{% block content %}
+<a href="{% url 'forum:list' %}" style="color: var(--accent); text-decoration: none">&larr; Back to Forum</a>
+
+<div class="forum-card" style="margin-top: 1rem; border-color: var(--accent)">
+  <div class="forum-card-header">
+    <h1 class="forum-title" style="font-size: 1.5rem">{{ thread.title }}</h1>
+    <div>
+      {% if thread.symbol %}<span class="badge impact medium">{{ thread.symbol }}</span>{% endif %}
+      {% if thread.is_locked %}<span class="badge impact high">🔒 Locked</span>{% endif %}
+    </div>
+  </div>
+  
+  <div style="margin-bottom: 1rem; line-height: 1.8">
+    {{ thread.content|linebreaks }}
+  </div>
+  
+  <div class="forum-meta" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+      Posted by <strong>{{ thread.author.username }}</strong> on {{ thread.created_at|date:"M d, Y" }}
+    </div>
+    {% if request.user == thread.author %}
+    <div>
+      <a href="{% url 'forum:edit_thread' thread.pk %}" class="btn-secondary" >Edit Thread</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<h3 style="margin: 2rem 0 1rem 0">Replies ({{ replies.count }})</h3>
+
+<div class="replies-section">
+  {% for reply in replies %}
+  <div class="forum-card" style="margin-bottom: 1rem">
+    <div style="margin-bottom: 0.5rem; line-height: 1.6">
+      {{ reply.content|linebreaks }}
+    </div>
+    <div class="forum-meta" style="display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <strong>{{ reply.author.username }}</strong> • {{ reply.created_at|timesince }} ago
+      </div>
+      {% if request.user == reply.author %}
+      <div style="display: flex; gap: 0.5rem;">
+        <a href="{% url 'forum:edit_reply' reply.pk %}" class="btn-secondary">Edit</a>
+        <a href="{% url 'forum:delete_reply' reply.pk %}" class="btn-danger">Delete</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  {% empty %}
+  <p style="color: var(--text-muted)">No replies yet.</p>
+  {% endfor %}
+</div>
+
+{% if not thread.is_locked %}
+<div class="forum-card" style="margin-top: 2rem; background-color: var(--bg-main)">
+  <h4 style="margin-bottom: 1rem">Post a Reply</h4>
+  {% if request.user.is_authenticated %}
+  <form method="POST">
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit" class="btn-primary">Submit Reply</button>
+  </form>
+  {% else %}
+  <p>
+    You must be logged in to reply.
+    <a href="{% url 'core:login' %}?next={{ request.path }}" style="color: var(--accent)">Log in here</a>.
+  </p>
+  {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}

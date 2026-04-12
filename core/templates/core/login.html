@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Log in | FinPlatform{% endblock %}
+
+{% block content %}
+<div style="max-width: 400px; margin: 4rem auto;">
+    <div class="forum-card">
+        <h2 style="margin-bottom: 1.5rem; text-align: center;">Welcome Back</h2>
+        
+        <form method="post" action=".">
+            {% csrf_token %}
+            {{ form.as_p }}
+            
+            {% if form.errors %}
+                <div style="color: #ef4444; margin-bottom: 1rem; font-size: 0.9rem;">
+                    Your username and password didn't match. Please try again.
+                </div>
+            {% endif %}
+
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+            
+            <button type="submit" class="btn-primary" style="width: 100%;">Log in</button>
+        </form>
+    </div>
+    <div style="text-align: center; margin-top: 1rem; color: var(--text-muted);">
+        Don't have an account? <a href="{% url 'core:signup' %}" style="color: var(--accent);">Sign up</a>
+    </div>
+</div>
+{% endblock %}

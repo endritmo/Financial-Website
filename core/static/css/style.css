@@ -10,7 +10,48 @@ body { background-color: var(--bg-main); color: var(--text-main); line-height: 1
 .hero { text-align: center; margin-top: 5rem; }
 .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
 .hero p { color: var(--text-muted); font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem auto; }
-.btn-primary { display: inline-block; background-color: var(--accent); color: white; padding: 0.75rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; }
+.btn-primary { display: inline-block;  background-color: var(--accent); color: white; padding: 0.75rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; }
+.btn-primary:hover {
+    cursor: pointer
+}
+/* --- Secondary & Danger Buttons for Forum Actions --- */
+.btn-secondary {
+    display: inline-block;
+    background-color: var(--bg-secondary);
+    color: var(--text-main);
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    transition: background-color 0.2s, border-color 0.2s;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.btn-secondary:hover {
+    background-color: var(--border);
+    border-color: #4b5563;
+}
+
+.btn-danger {
+    display: inline-block;
+    background-color: #ef4444;
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid #ef4444;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.btn-danger:hover {
+    background-color: #dc2626;
+    border-color: #dc2626;
+}
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
 select { background-color: var(--bg-secondary); color: var(--text-main); border: 1px solid var(--border); padding: 0.5rem; border-radius: 4px; }
 .symbol-selector {display: flex; align-items: center; gap: 10px;}
@@ -73,3 +114,59 @@ select { background-color: var(--bg-secondary); color: var(--text-main); border:
 .chat-footer { padding: 1rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem; background-color: var(--bg-main); }
 .chat-footer input { flex: 1; background-color: var(--bg-secondary); border: 1px solid var(--border); color: white; padding: 0.5rem; border-radius: 4px; }
 .chat-footer button { background-color: var(--accent); border: none; color: white; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; }
+/* --- Forum App Styles --- */
+.forum-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.2s;
+}
+.forum-card.pinned {
+    border-left: 4px solid var(--accent);
+}
+.forum-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.75rem;
+}
+.forum-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-main);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.forum-title:hover {
+    color: var(--accent);
+}
+.forum-meta {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+.badge.active {
+    background-color: var(--accent);
+    color: white;
+}
+a.badge {
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+a.badge:hover {
+    background-color: var(--accent-hover);
+    color: white;
+}
+/* Ensure form inputs take full width gracefully */
+form p {
+    margin-bottom: 1rem;
+}
+form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}

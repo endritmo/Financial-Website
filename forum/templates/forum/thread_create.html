@@ -1,0 +1,20 @@
+
+{% extends 'core/base.html' %}
+
+{% block title %}Start a Thread | FinPlatform{% endblock %}
+
+{% block content %}
+<a
+  href="{% url 'forum:list' %}"
+  style="color: var(--accent); text-decoration: none"
+  >&larr; Cancel</a
+>
+
+<div class="forum-card" style="margin-top: 1rem; max-width: 800px">
+  <h2 style="margin-bottom: 1.5rem">Create New Discussion</h2>
+  <form method="POST">
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit" class="btn-primary">Post Thread</button>
+  </form>
+</div>
+{% endblock %}

@@ -36,6 +36,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Where to go after a successful login
+LOGIN_REDIRECT_URL = 'core:home'
+
+# Where to go after logging out
+LOGOUT_REDIRECT_URL = 'core:home'
+
 
 # Application definition
 
@@ -48,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'ai_assistant',
+    'forum',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +76,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',

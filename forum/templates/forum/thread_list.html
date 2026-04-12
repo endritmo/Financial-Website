@@ -1,0 +1,90 @@
+
+{% extends 'core/base.html' %}
+
+{% block title %}Market Forum | FinPlatform{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>Market Discussions</h2>
+    <p class="forum-meta">Share insights, setups, and fundamental analysis.</p>
+  </div>
+  {% if request.user.is_authenticated %}
+  <a href="{% url 'forum:create_thread' %}" class="btn-primary"
+    >Start a Thread</a
+  >
+  {% else %}
+  <a
+    href="{% url 'core:login' %}?next={% url 'forum:list' %}"
+    class="btn-primary"
+    style="background-color: var(--border)"
+    >Login to Post</a
+  >
+  {% endif %}
+</div>
+
+<div
+  class="forum-filters"
+  style="display: flex; gap: 1rem; margin-bottom: 2rem"
+>
+  <a
+    href="{% url 'forum:list' %}"
+    class="badge {% if not current_category %}active{% endif %}"
+    >All</a
+  >
+  {% for categ in categories %}
+  <a
+    href="{% url 'forum:list' %}?category={{ categ.slug }}"
+    class="badge {% if current_category == categ.slug %}active{% endif %}"
+    >{{ categ.name }}</a
+  >
+  {% endfor %}
+</div>
+
+<div class="thread-list">
+  {% for thread in threads %}
+  <div class="forum-card {% if thread.is_pinned %}pinned{% endif %}">
+    <div class="forum-card-header">
+      <div>
+        {% if thread.is_pinned %}📌{% endif %}
+        <a href="{% url 'forum:thread_detail' thread.pk %}" class="forum-title"
+          >{{ thread.title }}</a
+        >
+      </div>
+      <div>
+        {% if thread.symbol %}<span class="badge impact medium"
+          >{{ thread.symbol }}</span
+        >{% endif %} {% if thread.category %}<span class="badge"
+          >{{ thread.category.name }}</span
+        >{% endif %}
+      </div>
+    </div>
+    <div
+      class="forum-card-body"
+      style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.95rem"
+    >
+      {{ thread.content|truncatechars:120 }}
+    </div>
+    <div
+      class="forum-card-footer"
+      style="
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      "
+    >
+      <span>By <strong>{{ thread.author.username }}</strong></span>
+      <span
+        >{{ thread.reply_count }} Replies • Last updated 
+        {{ thread.updated_at|timesince }} ago</span
+      >
+    </div>
+  </div>
+  {% empty %}
+  <div class="forum-card">
+    <p>No threads found for this filter. Be the first to post!</p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
